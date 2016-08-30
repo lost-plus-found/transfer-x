@@ -2,7 +2,13 @@
 
 running=$(pgrep python)
 
-if [ ]; then
+if [ "$1" = "--status" ]; then
+	if [ "$running" = "" ]; then
+		echo 'Status(transfer-x): Inactive'
+	else
+		echo 'Status(transfer-x): Active'
+	fi
+	exit 0
 fi
 
 if [ "$1" = "--stop" ]; then
@@ -36,4 +42,5 @@ echo 'Hey! Just want to off the firewall till the tranfer is done!'
 sudo ufw disable
 
 python -m SimpleHTTPServer > /dev/null 2>&1 &
+echo 'Hi! The server is running!'
 
