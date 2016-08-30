@@ -1,7 +1,13 @@
 #!/bin/bash
 
 running=$(pgrep python)
-IP=$(ifconfig | awk '/inet addr/{print substr($2,6)}' | sed -n "2"p)
+IP_ETHE=$(ifconfig | awk '/inet addr/{print substr($2,6)}' | head -1 | sed -r s/127.0.0.1//)
+IP_WIFI=$(ifconfig | awk '/inet addr/{print substr($2,6)}' | tail -1 | sed -r s/127.0.0.1//)
+
+if [ "$IP_ETHE" = "" ] && [ "$IP_WIFI" = "" ]; then
+	echo 'Please connect to a network first!'
+	exit 1
+fi
 
 # colors
 red=`tput setaf 1`
@@ -13,7 +19,12 @@ if [ "$1" = "--status" ]; then
 		echo 'Status(transfer-x): Inactive'
 	else
 		echo 'Status(transfer-x): Active'
-		echo "http://$IP:8000/transfer-box.zip"
+		if [ "$IP_ETHE" != "" ]; then
+			echo "http://$IP_ETHE:8000/transfer-box.zip"
+		fi
+		if [ "$IP_WIFI" != "" ]; then
+                        echo "http://$IP_WIFI:8000/transfer-box.zip"
+                fi
 	fi
 	exit 0
 fi
@@ -85,7 +96,13 @@ sudo ufw disable
 echo
 echo 'Hi! The server is running!'
 echo
-echo -e "\033[93m http://$IP:8000/transfer-box.zip \033[00m"
-echo
+if [ "$IP_ETHE" != "" ]; then
+	echo -e "\033[93m http://$IP_ETHE:8000/transfer-box.zip \033[00m"
+	echo
+fi
+if [ "$IP_WIFI" != "" ]; then
+	echo -e "\033[93m http://$IP_WIFI:8000/transfer-box.zip \033[00m"
+	echo
+fi
 echo '** Paste the link in receiver browser **'
 echo
