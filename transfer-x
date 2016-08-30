@@ -3,6 +3,11 @@
 running=$(pgrep python)
 IP=$(ifconfig | awk '/inet addr/{print substr($2,6)}' | sed -n "2"p)
 
+# colors
+red=`tput setaf 1`
+green=`tput setaf 2`
+reset=`tput sgr0`
+
 if [ "$1" = "--status" ]; then
 	if [ "$running" = "" ]; then
 		echo 'Status(transfer-x): Inactive'
@@ -28,28 +33,28 @@ fi
 
 if [ "$1" = "--help" ]; then
 	echo 'Hello, transfer-x is used to transfer files or folders in a same network by zipping them'
-	echo 'to add files/folders to be sent          : transfer-x <file or folder> <file or folder> ...'
-	echo 'to stop transfer-x server                : transfer-x --stop'
-	echo 'to check the status of transfer-x server : transfer-x --status'
-	echo 'to get help for transfer-x commands      : transfer-x --help'
+	echo "to add files/folders to be sent          : ${red}transfer-x <file or folder> <file or folder> ...${reset}"
+	echo "to stop transfer-x server                : ${red}transfer-x --stop${reset}"
+	echo "to check the status of transfer-x server : ${red}transfer-x --status${reset}"
+	echo "to get help for transfer-x commands      : ${red}transfer-x --help${reset}"
 	exit 0
 fi
 
 if [ "${1:0:2}" = "--" ]; then
 	echo 'Unknown command'
-	echo 'type trasfer-x --help'
+	echo "type ${red}trasfer-x --help${reset}"
 	exit 0
 fi
 
 if [ $# -eq 0 ]; then
 	echo 'Hey! What to trasfer?'
-	echo 'type trasfer-x --help'
+	echo "type ${red}trasfer-x --help${reset}"
 	exit 0
 fi
 
 if [ "$running" != "" ]; then
 	echo 'Already transfer-x server is running'
-	echo 'type transfer-x --stop it'
+	echo "type ${red}transfer-x --stop${reset} to stop the server"
 	exit 0
 fi
 
