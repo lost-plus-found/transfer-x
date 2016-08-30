@@ -45,6 +45,12 @@ if [ $# -eq 0 ]; then
 	exit 0
 fi
 
+if [ "$running" != "" ]; then
+	echo 'Already transfer-x server is running'
+	echo 'type transfer-x --stop it'
+	exit 0
+fi
+
 rm -f tranfer-box.zip
 rm -rf transfer-box
 mkdir transfer-box
