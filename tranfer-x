@@ -23,10 +23,25 @@ if [ "$1" = "--stop" ]; then
 	exit 0
 fi
 
+if [ "$1" = "--help" ]; then
+	echo 'Hello, transfer-x is used to transfer files or folders in a same network by zipping them'
+	echo 'to add files/folders to be sent          : transfer-x <file or folder> <file or folder> ...'
+	echo 'to stop transfer-x server                : transfer-x --stop'
+	echo 'to check the status of transfer-x server : transfer-x --status'
+	echo 'to get help for transfer-x commands      : transfer-x --help'
+	exit 0
+fi
+
+if [ "${1:0:2}" = "--" ]; then
+	echo 'Unknown command'
+	echo 'type trasfer-x --help'
+	exit 0
+fi
+
 if [ $# -eq 0 ]; then
 	echo 'Hey! What to trasfer?'
-	echo 'Try trasfer-x <file or folder> <file or folder> ...'
-	exit 1
+	echo 'type trasfer-x --help'
+	exit 0
 fi
 
 rm -f tranfer-box.zip
