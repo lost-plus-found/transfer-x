@@ -1,0 +1,39 @@
+#!/bin/bash
+
+running=$(pgrep python)
+
+if [ ]; then
+fi
+
+if [ "$1" = "--stop" ]; then
+	if [ "$running" != "" ]; then
+		kill -9 $running
+		echo 'Hey! The Tranfer is done! Firewall will be up now'
+		sudo ufw enable
+		rm -f transfer-box.zip
+	else
+		echo 'Sorry! transfer-x is not running'
+	fi
+	exit 0
+fi
+
+if [ $# -eq 0 ]; then
+	echo 'Hey! What to trasfer?'
+	echo 'Try trasfer-x <file or folder> <file or folder> ...'
+	exit 1
+fi
+
+rm -f tranfer-box.zip
+mkdir transfer-box
+for arg in $@; do
+	cp -rf $arg transfer-box/$arg
+done
+zip -r transfer-box.zip transfer-box
+rm -rf transfer-box
+echo
+
+echo 'Hey! Just want to off the firewall till the tranfer is done!'
+sudo ufw disable
+
+python -m SimpleHTTPServer > /dev/null 2>&1 &
+
