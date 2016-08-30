@@ -76,11 +76,11 @@ echo
 echo 'Hey! Just want to off the firewall till the tranfer is done!'
 sudo ufw disable
 
-python -m SimpleHTTPServer > /dev/null 2>&1 &
+/usr/bin/python -m SimpleHTTPServer > /dev/null 2>&1 &
 echo
 echo 'Hi! The server is running!'
 echo
 echo -e "\033[93m http://$IP:8000/transfer-box.zip \033[00m"
-echo 
+echo
 echo '** Paste the link in receiver browser **'
-echo 
+echo
