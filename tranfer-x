@@ -14,6 +14,7 @@ fi
 if [ "$1" = "--stop" ]; then
 	if [ "$running" != "" ]; then
 		kill -9 $running
+		echo 'Server is stopped!'
 		echo 'Hey! The Tranfer is done! Firewall will be up now'
 		sudo ufw enable
 		rm -f transfer-box.zip
@@ -48,14 +49,14 @@ rm -f tranfer-box.zip
 rm -rf transfer-box
 mkdir transfer-box
 for arg in $@; do
-	if [ -f "$arg" ] || [-d "$arg" ]; then
+	if [ -f "$arg" ] || [ -d "$arg" ]; then
 		cp -rf $arg transfer-box/$arg
 	else
-		echo "$arg is not found."
+		echo "unrecognized: \"$arg\" is ignored"
 	fi
 done
 
-if [ "$(ls -A transfer-box)" = ""]; then
+if [ "$(ls -A transfer-box)" = "" ]; then
 	echo 'Nothing added.'
 	exit 0
 fi
