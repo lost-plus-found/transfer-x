@@ -14,6 +14,12 @@ $ `cd ~/transfer-x`
 
 $ `sudo make install`
 
+## Updating
+
+$ `cd ~/transfer-x`
+
+$ `sudo make update`
+
 ## Uninstalling
 
 $ `cd ~/transfer-x`
